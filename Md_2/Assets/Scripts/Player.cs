@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class Player : Character
 {
-    [SerializeField] private string charName;
+    public string CharName;
 
-    public string CharName
+    public void ToggleShield()
     {
-        get { return charName; }
+        if (hasShield)
+        {
+            hasShield = false;
+        }
+        else
+        {
+            hasShield = true;
+            shieldDurability = 3;
+        }
     }
 }
