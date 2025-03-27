@@ -108,15 +108,16 @@ public class Character : MonoBehaviour
         }
     }
 
-    private void LockShieldButton()
+    public void LockShieldButton()
     {
-        shieldButton.interactable = false;
-        Invoke("UnlockShieldButton", 2f);
+        if (shieldButton != null)
+            shieldButton.interactable = false;
     }
 
-    private void UnlockShieldButton()
+    public void UnlockShieldButton()
     {
-        shieldButton.interactable = true;
+        if (shieldButton != null)
+            shieldButton.interactable = true;
     }
 }
 

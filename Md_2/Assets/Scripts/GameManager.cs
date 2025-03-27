@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Button healButton;
     private int mediumAttackCooldown = 0;
+    private int shieldCooldownTurns = 0;
 
     private int enemyCounter = 1;
     private bool healUsed = false;
@@ -118,13 +119,31 @@ public class GameManager : MonoBehaviour
         {
             mediumAttackCooldown--;
         }
+        
+        if (shieldCooldownTurns > 0)
+        {
+            shieldCooldownTurns--;
+            if (shieldCooldownTurns == 0)
+            {
+                player.UnlockShieldButton(); 
+            }
+        }
 
         RefreshUI();
     }
     public void ToggleShield()
     {
+        if (shieldCooldownTurns > 0 || player.hasShield)
+        {
+            return;
+        }
+
         PlayShieldSound();
         player.ToggleShield();
+        
+        shieldCooldownTurns = 6;
+        player.LockShieldButton();
+
         RefreshUI();
     }
 
