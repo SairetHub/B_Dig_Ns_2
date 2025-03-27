@@ -3,7 +3,12 @@ guid: f835d1b4c027e86408bb1480b1e15edf
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - activeWeapon: {instanceID: 0}
+  - attackSound: {fileID: 8300000, guid: c0796b2a67f0042449376e92f24c56e2, type: 3}
+  - shieldSound: {fileID: 8300000, guid: c0796b2a67f0042449376e92f24c56e2, type: 3}
+  - audioSource: {instanceID: 0}
+  - shieldButton: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

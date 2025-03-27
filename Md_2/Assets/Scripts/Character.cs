@@ -1,20 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
-    public int health;
+    private int _health = 100;
     public bool hasShield = false;
     public int shieldDurability = 5;
     public int shieldDamageReduction = 50;
-    private int shieldCooldown = 0; 
-    [SerializeField] private Weapon activeWeapon;
+    private int shieldCooldown = 0;
 
-  
-    [SerializeField] private Button shieldButton; 
+    [SerializeField] private Weapon activeWeapon;
+    [SerializeField] private Button shieldButton;
+
+    public int Health
+    {
+        get { return _health; }
+        set
+        {
+            _health = Mathf.Clamp(value, 0, 100);
+
+            if (_health == 0)
+            {
+                Debug.Log(name + " is dead!");
+
+                if (this is Player)
+                {
+                    GameManager.Instance.GameOver();
+                }
+            }
+        }
+    }
 
     public Weapon ActiveWeapon
     {
@@ -23,7 +40,6 @@ public class Character : MonoBehaviour
 
     public virtual int Attack()
     {
-        
         if (shieldCooldown > 0)
         {
             shieldCooldown--;
@@ -36,18 +52,18 @@ public class Character : MonoBehaviour
         if (hasShield)
         {
             int reducedDamage = damage * (100 - shieldDamageReduction) / 100;
-            health -= reducedDamage;
+            Health -= reducedDamage;
             shieldDurability--;
             if (shieldDurability <= 0)
             {
                 hasShield = false;
-                shieldCooldown = 2; 
+                shieldCooldown = 2;
                 LockShieldButton();
             }
         }
         else
         {
-            health -= damage;
+            Health -= damage;
         }
     }
 
@@ -57,18 +73,18 @@ public class Character : MonoBehaviour
         if (hasShield)
         {
             int reducedDamage = damage * (100 - shieldDamageReduction) / 100;
-            health -= reducedDamage;
+            Health -= reducedDamage;
             shieldDurability--;
             if (shieldDurability <= 0)
             {
                 hasShield = false;
-                shieldCooldown = 5; 
-                LockShieldButton(); 
+                shieldCooldown = 5;
+                LockShieldButton();
             }
         }
         else
         {
-            health -= damage;
+            Health -= damage;
         }
 
         weapon.ApllyEffect(this);
@@ -80,11 +96,11 @@ public class Character : MonoBehaviour
         {
             return;
         }
-        
+
         if (!hasShield)
         {
             hasShield = true;
-            shieldDurability = 5; 
+            shieldDurability = 5;
         }
         else
         {
@@ -95,7 +111,7 @@ public class Character : MonoBehaviour
     private void LockShieldButton()
     {
         shieldButton.interactable = false;
-        Invoke("UnlockShieldButton", 2f); 
+        Invoke("UnlockShieldButton", 2f);
     }
 
     private void UnlockShieldButton()
